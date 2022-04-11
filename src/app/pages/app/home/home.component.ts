@@ -20,9 +20,10 @@ export class HomeComponent implements OnInit {
   dataForm: any;
   urlParam;
   mensaje = "Error getting documents ";
-  staus = false;
   public submitted = false;
   public requiredText = 'Este campo es requerido';
+
+  listPayment: PaymentI[] = [];
 
   constructor(private _formBuilder: FormBuilder, private _DataService: DataService, private router: Router) {
 
@@ -40,11 +41,8 @@ export class HomeComponent implements OnInit {
     this.payment_id = this.urlParam.queryParams['payment_id']
     this.status = this.urlParam.queryParams['status']
     this.preference_id = this.urlParam.queryParams['preference_id']
-
     
-
   }
-  
   get f() {
     return this.registerForm.controls;
   }
@@ -62,7 +60,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  saveNewQr(){
+  saveNewQr(){ //se genera el qr
     const g = this.registerForm.value;
     this.dataForm = JSON.stringify(Object.assign(this.registerForm.value,{bday: "04-08-2022", createdBy: "4"}));
     this._DataService.addQr(this.dataForm).subscribe( response => {
@@ -73,10 +71,10 @@ export class HomeComponent implements OnInit {
         console.log(err)
       }
       
-    }); //se genera el qr
+    }); 
   }
 
-  saveNewDataFirebase():void {
+  saveNewDataFirebase() {
     
     this._DataService.get(this.payment_id).subscribe( response => { // validamos si existe el pago en meli
       const g = [response];
@@ -85,40 +83,51 @@ export class HomeComponent implements OnInit {
           
           if(data.status = "approved"){
 
-            this._DataService.getPayment(this.payment_id).subscribe((querySnapshot:any) => {
-              querySnapshot.forEach((action:any) => {
-                
-                  if(!action.payload.doc.exists){
+            this._DataService.get(this.payment_id).subscribe( response => { // validamos si existe el pago en meli
+              const g = [response];
+              g.forEach((data: any) => {
+                try{
+                  
+                  if(data.status = "approved"){
+                    this._DataService.getPayment(this.payment_id).subscribe(querySnapshot => {
         
-                    const a = action.payload.doc.data() as PaymentI;
-                    console.log(a.paymentId)
+                      this.listPayment = [];
+        
+                      querySnapshot.forEach(action => {
+                
+                        if(action.payload.doc.exists){
+                          const data = action.payload.doc.data() as PaymentI;
+                          
+                          this.listPayment.push({
+                            paymentId: data.paymentId,
+                            status: data.status,
+                            preference_id: data.preference_id
+                          })
+                          
+                          console.log(this.listPayment)
+                          
+                        }
+                      });
+                      if(this.listPayment.length === 0){
 
-                    this._DataService.createPayment({
-                      paymentId: this.payment_id,
-                      status: this.status,
-                      preference_id: this.preference_id
-                    });
-                    this.saveNewQr();
-                     
+                        this._DataService.createPayment({
+                          paymentId: this.payment_id,
+                          status: this.status,
+                          preference_id: this.preference_id
+                        })
+                        this.saveNewQr()
+                        console.log("guardar")
+                      }
+                      
+                    })
+        
                   }
-                  else{
-                    console.log("ya existe")
-                  }
-              });
-            })
-            /*.subscribe( dataFire => {
-
-              if(dataFirebase){ // si no existe lo agregamos
-                dataFire.forEach( x => {
-                  this._DataService.createPayment({
-                    paymentId: this.payment_id,
-                    status: this.status,
-                    preference_id: this.preference_id
-                  })
-                });
-                this.saveNewQr();
-              }
-            }) */
+                }
+                catch(err){
+                  console.log(err)
+                }
+              })
+            });
           }
         }
         catch(err){
@@ -128,22 +137,6 @@ export class HomeComponent implements OnInit {
     });
   }
   
-  ngOnInit(): void {
-
-    
-
-    /*const gg = this._DataService.getPayment(this.payment_id).pipe(map(changes => { // validamos si ya existe en la db
-      
-       changes.map(action => {
-       if(action.payload.doc.exists){
-
-        const a = action.payload.doc.data() as PaymentI;
-        console.log(a.paymentId)
-         
-       }
-     });
-   }))*/
-
-    
+  ngOnInit(): void { 
   }
 }

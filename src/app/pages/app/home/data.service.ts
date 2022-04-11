@@ -17,6 +17,8 @@ export class DataService {
   private urlApi = 'http://apipass.mooo.com:11500/api/nuevoQR';
   private urlApipayments = 'https://api.mercadopago.com/v1/payments/';
 
+  listPayment: PaymentI[] = [];
+
   constructor(private firestore: AngularFirestore, private http: HttpClient) { }
 
   addQr(qr: QrI): Observable<QrI> {
@@ -45,6 +47,9 @@ export class DataService {
   public getPayment(documentId: string) {
     
     return this.firestore.collection('payments', ref => ref.where('paymentId', '==', documentId)).snapshotChanges()
+    
+    
+    
   }
   public getPayments() {
     return this.firestore.collection('payments').snapshotChanges();
