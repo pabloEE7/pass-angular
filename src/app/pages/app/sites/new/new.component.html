@@ -1,0 +1,41 @@
+<div class="container">
+  <div class=" card card-user">
+    <div class=" card-body">
+      <div class="">
+        <h4 class="card-title mb-4">table</h4>
+      </div>
+      <div class="table-responsive mb-0">
+        <table class="table table-borderless align-middle border-colum-table">
+          <thead class="table-light">
+            <tr>
+              <th scope="row">#</th>
+              <th>First</th>
+              <th>#</th>
+              <th>First</th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let producto of productos; let i = index">
+            <tr>
+              <th>{{i + 1}}</th>
+              <td>Jacob</td>
+              <td *ngIf="producto.status === 'contracargo'">
+                <span class="tr-b tr-b-danger">Contracargo</span>
+              </td>
+              <td *ngIf="producto.status === 'reembolso'">
+                <span class="tr-b tr-b-warning">Reembolso</span>
+              </td>
+              <td *ngIf="producto.status === 'pagado'">
+                <span class="tr-b tr-b-success">Pagado</span>
+              </td>
+              <td>
+                <a class="card-post_avatar dimensiones01" style="background-image: url('./assets/images/fores.jpg'); background-size: cover; background-position: 50%; ">Written by James Jamerson</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class=" card-footer">
+    </div>
+  </div>
+</div>

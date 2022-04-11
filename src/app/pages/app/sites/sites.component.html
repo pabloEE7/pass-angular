@@ -1,0 +1,15 @@
+<div class="container">
+  <div class=" row">
+    <div class=" col-lg-12">
+      <app-table
+                 [data]="data_services"
+                 [column_thead]="column_thead_services"
+                 [column_tbody]="column_tbody_services"
+                 [new]="true"
+                 [view]="false"
+                 [edit]="true"
+                 [deleted]="true"               
+      ></app-table> <!-- en realidad si estos datos los voy a obtener de una seccion, lo hago directamente en la tabla para no pasarle los mismos datos siempre-->
+    </div>
+  </div>
+</div>

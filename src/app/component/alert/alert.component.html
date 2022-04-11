@@ -1,0 +1,23 @@
+<ng-container *ngIf="status === 1">
+  <div class="alert alert-success">
+    <div class="alert_">
+      <span>{{title}}</span>
+    </div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="status === 2">
+  <div class="alert alert-primary">
+    <div class="alert_">
+      <span>{{title}}</span>
+    </div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="status === 3">
+  <div class="alert alert-danger">
+    <div class="alert_">
+      <span>{{title}}</span>
+    </div>
+  </div>
+</ng-container>

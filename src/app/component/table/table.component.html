@@ -1,0 +1,104 @@
+
+<app-search [status]="search"></app-search>
+<ng-container *ngIf="filters && filters.length > 0">
+  <div class="" style="margin-top:15px; ">
+    <div class=" card-body">
+      <div class=" row">
+        <ng-container *ngFor="let filter of filters; let i_filter = index">
+          <div class="form-group col-lg-3 col-md-2">
+            <input placeholder="search" class="form-control" style=" margin-left:5px; border: none; border-bottom: 0.5px solid #ced4da; color: #6c757d; outline: none; background-color: transparent; " />
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<div class="card card-user" style="margin-top: 35px;">
+  <div class=" card-body">
+
+    <div class="mb-rem01 d-flex">
+      <ng-container *ngIf="new">
+        <a href="{{path}}/new" target="_blank" class="txt_dimencion01 color1_black">
+          Agregar
+        </a>
+      </ng-container>
+      <div style="margin-left: auto;">
+        <ng-container *ngIf="export">
+          <app-export [status]="export"></app-export>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="table-responsive mb-0">
+      <table class="table table-borderless align-middle">
+        <thead style="background-color: #f8f8fb; color: #6c757d;">
+          <tr>
+            <ng-container *ngFor="let column of column_thead; let i = index">
+              <ng-container *ngIf="i === 0;">
+                <th scope="row">{{column}}</th>
+              </ng-container>
+              <ng-container *ngIf="i > 0;">
+                <th>{{column}}</th>
+              </ng-container>
+            </ng-container>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let data of data; let i = index">
+          <tr>
+            <ng-container *ngFor="let data_ of data; let i_b = index">
+              <td scope="row">{{data_}}</td>
+            </ng-container>
+            <ng-container *ngIf="view || edit || deleted">
+              <td>
+                <!-- Contracargo Reembolso Pagado-->
+                <ng-container *ngIf="view">
+                  <a href="{{path}}/view" class="tr-b tr-b-primary">View</a>
+                </ng-container>
+                <ng-container *ngIf="edit">
+                  <a href="{{path}}/edit" class="tr-b tr-b-success" style="margin-left:10px;">Edit</a>
+                </ng-container>
+                <ng-container *ngIf="deleted">
+                  <a class="tr-b tr-b-danger" style="margin-left:10px;" (click)="remover(i)">Delete</a>
+                </ng-container>
+                <ng-container *ngIf="duplicate">
+                  <a class="tr-b tr-b-warning" style="margin-left:10px;">Duplicate</a>
+                </ng-container>
+              </td>
+            </ng-container>
+          </tr>
+        </tbody>
+
+
+      </table>
+
+    </div>
+  </div>
+  <div class="d-flex" style="margin: 35px 35px 10px 35px;">
+    <ng-container *ngIf="new">
+      <small id="emailHelp" class="form-text text-muted">We'll never share.</small>
+    </ng-container>
+    <div style="margin-left: auto;">
+      <ng-container *ngIf="export">
+        <nav aria-label="Page navigation example">
+          <ul class="pagination">
+            <li class="page-item disabled">
+              <a class="" href="#" tabindex="-1">Previous</a>
+            </li>
+            <li class="page-item card-paginator dimensiones0 m-1"><a class="color1_black" href="#">1</a></li>
+            <li class="page-item card-paginator dimensiones0 m-1"><a class="" href="#">2</a></li>
+            <li class="page-item card-paginator dimensiones0 m-1"><a class="" href="#">3</a></li>
+            <li class="page-item card-paginator dimensiones0 m-1"><a class="" href="#">4</a></li>
+            <li class="page-item card-paginator dimensiones0 m-1"><a class="" href="#">5</a></li>
+            <li class="page-item card-paginator dimensiones0 m-1"><a class="" href="#">6</a></li>
+            <li class="page-item card-paginator dimensiones0 m-1"><a class="  mb-rem0" href="#">7</a></li>
+            <li class="page-item">
+              <a class="" href="#">Next</a>
+            </li>
+          </ul>
+        </nav>
+      </ng-container>
+    </div>
+  </div>
+</div>
