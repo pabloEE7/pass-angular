@@ -22,6 +22,11 @@
     </div>
   </div>
 </div>-->
+<script src="https://sdk.mercadopago.com/js/v2"></script>
+   <script>
+       const mp = new MercadoPago('APP_USR-1fd52210-c58b-4843-b8af-ca4e0e429e7d');
+       // Add step #3
+   </script>
 <div class="container">
 
   <!-- Outer Row -->
@@ -37,15 +42,15 @@
               </div>
               <div class="p-5">
                 <div class="text-center">
-                  <div>
+                  <div class="mb-2">
                     <h1 class="h4 mb-2 text-dark">LM Eventos</h1>
                     <small class="p-3">
                       *Para ingresar a este evento debe abonar y a continuacion se le presentara un formulario
                       para agregar sus datos y poder recibir la invitacion con el pase qr a su correo electronico, 
                       por favor ingrese datos correctos ya que esto es tomado en cuanta para el acceso al evento.</small>
                   </div>
-                  <a href="https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=335570711-2b82f597-25fa-40f4-8e09-ec9e46b8249d">
-                    <button type="button" id="btn-login" class="btn btn-primary mt-4">Pagar</button>
+                  <a href="{{url}}">
+                    <button class="btn btn-primary">Pagar</button>
                   </a>
                 </div>
               </div>

@@ -1,36 +1,42 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { environment } from '../../../../environments/environment';
+
+import { QrI } from '../../../models/qr.interface';
 import { PaymentI } from '../../../models/payment.interface';
+
+
 
 @Injectable({
   providedIn: 'root',
 })
-export class WelcomeService {
+export class DataService {
 
-  constructor(private firestore: AngularFirestore, private http: HttpClient) {
-    
+  publicToken = 'APP_USR-1fd52210-c58b-4843-b8af-ca4e0e429e7d';
+
+  listPayment: PaymentI[] = [];
+
+  constructor(private firestore: AngularFirestore, private http: HttpClient) { }
+
+  addQr(qr: QrI): Observable<QrI> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json'
+      })
+    };
+    return this.http.post<QrI>(environment.apibackEnd + 'nuevoQR', qr,httpOptions);
   }
-
-  /*
-
-  el usuario paga
-  tomo los datos del pago y los busco en la api de mercado libre
-  si el pagoId y referencia existen pregunto si ya existen en mi db
-  si no existen lo cargo junto con los datos del usuario que estan en el formulario
-  
-  */
-  private urlApi = 'https://api.mercadopago.com/v1/payments/';
 
   public get(id: string){
     const httpOptions = {
       headers: new HttpHeaders({
-        'Authorization':  'Bearer TEST-5572828431042066-032716-2dbc921df239a60706df7dd03ba13795-335570711'
+        'Authorization':  `Bearer ${environment.meli.publicToken}`
       })
     };
-    return this.http.get(this.urlApi + id,httpOptions);
+    return this.http.get(environment.meli.api + 'payments/' + id,httpOptions);
   }
   
   public createPayment(data: {paymentId: string, status: string, preference_id: string}) {
@@ -41,6 +47,9 @@ export class WelcomeService {
   public getPayment(documentId: string) {
     
     return this.firestore.collection('payments', ref => ref.where('paymentId', '==', documentId)).snapshotChanges()
+    
+    
+    
   }
   public getPayments() {
     return this.firestore.collection('payments').snapshotChanges();

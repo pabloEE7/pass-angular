@@ -62,7 +62,7 @@ export class HomeComponent implements OnInit {
 
   saveNewQr(){ //se genera el qr
     const g = this.registerForm.value;
-    this.dataForm = JSON.stringify(Object.assign(this.registerForm.value,{bday: "1992-08-14", createdBy: "4"}));
+    this.dataForm = JSON.stringify(Object.assign(this.registerForm.value,{bday: "04-08-2022", createdBy: "4"}));
     this._DataService.addQr(this.dataForm).subscribe( response => {
       try{
         this.router.navigate(['welcome']);

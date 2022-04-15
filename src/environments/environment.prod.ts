@@ -1,4 +1,5 @@
 export const environment = {
+  production: true,
   firebase: {
     projectId: 'pass-cfcc1',
     appId: '1:1055242718277:web:865e4f4fe69c23395ba72c',
@@ -8,5 +9,10 @@ export const environment = {
     authDomain: 'pass-cfcc1.firebaseapp.com',
     messagingSenderId: '1055242718277',
   },
-  production: true
+  ApibackEnd: 'http://apipass.mooo.com:11000/api/',
+  Meli: {
+    api: 'https://api.mercadopago.com/v1/',
+    publicToken: 'APP_USR-9cb1d4f5-f7e0-48bf-8a08-0c1c8df2dc8c',
+  },
+  
 };

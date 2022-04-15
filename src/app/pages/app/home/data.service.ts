@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { Observable, of } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 
 import { QrI } from '../../../models/qr.interface';
 import { PaymentI } from '../../../models/payment.interface';
@@ -14,8 +15,7 @@ import { PaymentI } from '../../../models/payment.interface';
 })
 export class DataService {
 
-  private urlApi = 'http://apipass.mooo.com:11500/api/nuevoQR';
-  private urlApipayments = 'https://api.mercadopago.com/v1/payments/';
+  publicToken = 'APP_USR-1fd52210-c58b-4843-b8af-ca4e0e429e7d';
 
   listPayment: PaymentI[] = [];
 
@@ -27,16 +27,21 @@ export class DataService {
         'Content-Type':  'application/json'
       })
     };
-    return this.http.post<QrI>(this.urlApi, qr,httpOptions);
+    return this.http.post<QrI>(environment.apibackEnd + 'nuevoQR', qr,httpOptions);
   }
 
   public get(id: string){
     const httpOptions = {
       headers: new HttpHeaders({
-        'Authorization':  'Bearer TEST-5572828431042066-032716-2dbc921df239a60706df7dd03ba13795-335570711'
+        'Authorization':  `Bearer ${environment.meli.publicToken}`
       })
     };
-    return this.http.get(this.urlApipayments + id,httpOptions);
+    return this.http.get(environment.meli.api + 'payments/' + id,httpOptions);
+  }
+
+  public getPayment(documentId: string) {
+    
+    return this.firestore.collection('payments', ref => ref.where('paymentId', '==', documentId)).snapshotChanges() 
   }
   
   public createPayment(data: {paymentId: string, status: string, preference_id: string}) {
@@ -44,17 +49,12 @@ export class DataService {
     return this.firestore.collection('payments').add(data);
   }
 
-  public getPayment(documentId: string) {
-    
-    return this.firestore.collection('payments', ref => ref.where('paymentId', '==', documentId)).snapshotChanges()
-    
-    
-    
-  }
+  
+  /*
   public getPayments() {
     return this.firestore.collection('payments').snapshotChanges();
   }
   public updategetPayment(documentId: string, data: any) {
     return this.firestore.collection('payments').doc(documentId).set(data);
-  }
+  }*/
 }
