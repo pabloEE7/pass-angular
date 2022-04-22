@@ -3,10 +3,11 @@
     "",
     "\\src",
     "\\src\\app",
-    "\\src\\app\\component\\table",
+    "\\src\\app\\pages",
     "\\src\\app\\pages\\app",
-    "\\src\\app\\pages\\app\\sites"
+    "\\src\\app\\pages\\app\\sites",
+    "\\src\\assets",
+    "\\src\\assets\\styles"
   ],
-  "SelectedNode": "\\src\\app\\app.module.ts",
   "PreviewInSolutionExplorer": false
 }
